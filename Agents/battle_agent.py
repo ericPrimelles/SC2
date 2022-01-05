@@ -6,7 +6,7 @@ from joblib import dump
 from pysc2.lib import actions, features
 from Utils.replay_memory import Transition
 
-from Models.nn_models import FeatureCNNFCBig
+from Models.nn_models import FeatureCNNFCBig, DuelingFeatureCNNFCBig
 from Agents.rl_agent import BaseRLAgent
 
 _PLAYER_RELATIVE = features.SCREEN_FEATURES.player_relative.index
@@ -24,7 +24,7 @@ class BattleAgent(BaseRLAgent):
 
     def __init__(self, save_name=None, load_name=None):
         super(BattleAgent, self).__init__(save_name=save_name, load_name=load_name)
-        self.initialize_model(FeatureCNNFCBig(3, screen_size=self._screen_size))
+        self.initialize_model(DuelingFeatureCNNFCBig(3, screen_size=self._screen_size))
         self.steps_before_training = 5000
         self.obs = None
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS]

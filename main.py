@@ -7,7 +7,7 @@ _CONFIG = dict(
     episodes=10000,
     actions=8,
 
-    map_name='MoveToBeacon',
+    map_name='DefeatRoaches',
     screen_size=32,
     minimap_size=32,
     step_mul=8,
@@ -24,7 +24,7 @@ _CONFIG = dict(
     update_target=2000,
     num_episodes=5000, 
     max_memory=100000,
-    agent_name= 'Beacon',
+    agent_name= 'Battle',
 
     train=True,
     load_path='./graphs/train_PGAgent_190226_1942'
