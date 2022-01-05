@@ -1,38 +1,17 @@
 import copy
-import matplotlib.pyplot as plt
 import numpy as np
-import os
+
 import time
 from joblib import dump
-from collections import deque
-from pysc2.agents.base_agent import BaseAgent
-
-import torch
-import torch.nn as nn
-import torch.optim as optim
 
 from Agents.rl_agent import BaseRLAgent
-from Models.nn_models import BeaconCNN, BeaconCNN2
-from Utils.epsilon import Epsilon
-from Utils.replay_memory import ReplayMemory, Transition
+from Models.nn_models import BeaconCNN2
+from Utils.replay_memory import Transition
 
-from pysc2.env import available_actions_printer
 from pysc2.lib import actions
-from pysc2.lib import features
-import pickle
 
-_PLAYER_RELATIVE = features.SCREEN_FEATURES.player_relative.index
-_PLAYER_FRIENDLY = 1
-_PLAYER_NEUTRAL = 3  # beacon/minerals
-_PLAYER_HOSTILE = 4
-_NO_OP = actions.FUNCTIONS.no_op.id
-_MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id
 _ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id
 _SELECT_ARMY = actions.FUNCTIONS.select_army.id
-_NOT_QUEUED = [0]
-_SELECT_ALL = [0]
-_SELECT_POINT = actions.FUNCTIONS.select_point.id
-
 
 class BeaconAgent(BaseRLAgent):
 
@@ -41,13 +20,6 @@ class BeaconAgent(BaseRLAgent):
         self.initialize_model(BeaconCNN2())
         self.features = 5
         self.train_q_per_step = 4
-
-    @staticmethod
-    def select_friendly_action(obs):
-        player_relative = obs.observation["feature_screen"][_PLAYER_RELATIVE]
-        friendly_y, friendly_x = (player_relative == _PLAYER_FRIENDLY).nonzero()
-        target = [int(friendly_x.mean()), int(friendly_y.mean())]
-        return actions.FunctionCall(_SELECT_POINT, [[0], target])
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """A run loop to have agents and an environment interact."""

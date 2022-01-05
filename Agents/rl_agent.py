@@ -2,44 +2,30 @@ from abc import ABC, abstractmethod
 import copy
 from collections import deque
 import pickle
-import matplotlib.pyplot as plt
 import numpy as np
-import os
-import time
 
 from pysc2.agents.base_agent import BaseAgent
 from pysc2.lib import actions
-from pysc2.lib import features
 from Utils.epsilon import Epsilon
-from Utils.replay_memory import ReplayMemory, Transition
-from Models.nn_models import BeaconCNN
+from Utils.replay_memory import ReplayMemory
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
 
 
-_PLAYER_RELATIVE = features.SCREEN_FEATURES.player_relative.index
-_PLAYER_FRIENDLY = 1
-_PLAYER_NEUTRAL = 3  # beacon/minerals
-_PLAYER_HOSTILE = 4
 _NO_OP = actions.FUNCTIONS.no_op.id
 _MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id
-_ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id
-_SELECT_ARMY = actions.FUNCTIONS.select_army.id
-_NOT_QUEUED = [0]
-_SELECT_ALL = [0]
-_SELECT_POINT = actions.FUNCTIONS.select_point.id
 
 
 class BaseRLAgent(BaseAgent, ABC):
-
     def __init__(self, save_name='./data/', load_name=None):
         super(BaseRLAgent, self).__init__()
         self.training = False
         self.max_frames = 10000000
         self._epsilon = Epsilon(start=0.9, end=0.1, update_increment=0.0001)
         self.gamma = 0.99
+
         self.train_q_per_step = 4
         self.train_q_batch_size = 256
         self.steps_before_training = 5000
@@ -50,6 +36,7 @@ class BaseRLAgent(BaseAgent, ABC):
             self.load_name = self.save_name
         else:
             self.load_name = load_name
+
         self._Q = None
         self._Qt = None
         self._optimizer = None

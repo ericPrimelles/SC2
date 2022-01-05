@@ -3,7 +3,6 @@ from absl import app
 from environment import get_environment
 from runner import Runner
 
-
 _CONFIG = dict(
     episodes=10000,
     actions=8,
@@ -34,37 +33,18 @@ _CONFIG = dict(
 def main(unused_argv):
 
     env = get_environment(
-                    map_name=_CONFIG['map_name'],
-                    screen_size=_CONFIG['screen_size'],
-                    minimap_size=_CONFIG['minimap_size'],
-                    step_mul=_CONFIG['step_mul'],
-                    visualize=_CONFIG['visualize']
-                    )
-
-    '''agent = Agent(
-                    env=env, # Para obtener la cantidad de features units
-                    action_dim=_CONFIG['actions'],
-                    screen_size=_CONFIG['screen_size'],
-                    method=_CONFIG['method'],
-                    gamma=_CONFIG['gamma'], 
-                    epsilon=_CONFIG['epsilon'], 
-                    lr=_CONFIG['lr'], 
-                    loss=_CONFIG['loss'], 
-                    batch_size=_CONFIG['batch_size'],
-                    epsilon_decrease=_CONFIG['epsilon_decrease'], 
-                    epsilon_min=_CONFIG['epsilon_min'], 
-                    update_target=_CONFIG['update_target'], 
-                    num_episodes=_CONFIG['num_episodes'], 
-                    max_memory=_CONFIG['max_memory']
-                    )'''
+                        map_name=_CONFIG['map_name'],
+                        screen_size=_CONFIG['screen_size'],
+                        minimap_size=_CONFIG['minimap_size'],
+                        step_mul=_CONFIG['step_mul'],
+                        visualize=_CONFIG['visualize']
+                        )
 
     runner = Runner(
                     agent_name= _CONFIG['agent_name'],
                     env=env,
                     train=_CONFIG['train'],
-                    #load_path=_CONFIG['load_path'],
-                    map=_CONFIG['map_name']
-
+                    map_name=_CONFIG['map_name']
                     )
 
     runner.run(episodes=_CONFIG['episodes'])
