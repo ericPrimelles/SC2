@@ -116,9 +116,12 @@ class BeaconAgent(BaseRLAgent):
                     self.loss.append(self._loss[-1])
                     self.max_q.append(self._max_q[-1])
                 if self.n_episodes % save_checkpoints == 0:
-                    if self.n_episodes > 0:
-                        self.save_data(episodes_done=self.n_episodes)
 
+                    if self.n_episodes > 0:
+                        print(f'\n\n\n Saving {save_checkpoints}\n\n\n')
+                        self.save_data(episodes_done=self.n_episodes)
+                else:
+                    print(f'\n\n\n Not Saving {save_checkpoints}\n\n\n')
         except KeyboardInterrupt:
             pass
         finally:

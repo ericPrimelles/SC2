@@ -52,7 +52,7 @@ class BattleAgent(BaseRLAgent):
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS]
         self.train_q_per_step = 1
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=10, evaluate_checkpoints=10):
         """A run loop to have agents and an environment interact."""
         total_frames = 0
         start_time = time.time()
@@ -65,6 +65,7 @@ class BattleAgent(BaseRLAgent):
             while self.n_episodes < max_episodes:
 
                 obs = env.reset()[0]
+
                 # remove unit selection from the equation by selecting the entire army on every new game.
                 select_army = actions.FunctionCall(_SELECT_ARMY, [[False]])
                 obs = env.step([select_army])[0]
@@ -217,6 +218,7 @@ class BattleAgentBeacon(BattleAgent):
                     self.max_q.append(self._max_q[-1])
                 if self.n_episodes % save_checkpoints == 0:
                     if self.n_episodes > 0:
+                        print('KALIMABAAAAAAAAAAAAAAAAAAAA')
                         self.save_data(episodes_done=self.n_episodes)
 
         except KeyboardInterrupt:

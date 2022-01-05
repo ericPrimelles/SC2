@@ -57,7 +57,7 @@ class Runner(object):
 
 
         if not FLAGS.save_file:
-            save_name = f'./data/{self.map}/{FLAGS.max_episodes}eps_{FLAGS.agent}'
+            save_name = f'/data/{FLAGS.max_episodes}eps_{self.agent_name}'
         else:
             save_name = FLAGS.save_file
 
@@ -68,11 +68,12 @@ class Runner(object):
             self.agent.evaluate(self.env)
 
     def agent_selector(self, save_name, load_name):
-        save_name = f'./data/{self.map}/{10000}eps_{self.agent_name}'
+        #save_name = f'./data/{self.map}/{10000}eps_{self.agent_name}'
         if self.agent_name == 'Beacon':
 
-
+            print('\n\n\nSelecting beacon\n\n\n')
             self.agent = BeaconAgent(save_name=save_name, load_name=load_name)
 
         if self.agent_name == 'Battle':
+            print('\n\n\nSelecting beacon\n\n\n')
             self.agent = BattleAgent(save_name=save_name, load_name=load_name)
