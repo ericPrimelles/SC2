@@ -5,10 +5,10 @@ from runner import Runner
 
 
 _CONFIG = dict(
-    episodes=200,
+    episodes=10000,
     actions=8,
 
-    map_name='DefeatRoaches',
+    map_name='MoveToBeacon',
     screen_size=32,
     minimap_size=32,
     step_mul=8,
@@ -62,7 +62,7 @@ def main(unused_argv):
                     agent_name= _CONFIG['agent_name'],
                     env=env,
                     train=_CONFIG['train'],
-                    load_path=_CONFIG['load_path'],
+                    #load_path=_CONFIG['load_path'],
                     map=_CONFIG['map_name']
 
                     )

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import time
+from joblib import dump
 from collections import deque
 from pysc2.agents.base_agent import BaseAgent
 
@@ -106,6 +107,7 @@ class BeaconAgent(BaseRLAgent):
                     self._epsilon.isTraining = True
                 if evaluate_checkpoints == 0:  # this should only activate when we're inside the evaluation loop
                     self.reward.append(episode_reward)
+                    dump(self.reward, 'evaluation_reward.joblib')
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 
