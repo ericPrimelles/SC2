@@ -6,16 +6,17 @@ from joblib import dump
 from pysc2.lib import actions, features
 from Utils.replay_memory import Transition
 
-from Models.nn_models import FeatureCNNFCBig, DuelingFeatureCNNFCBig
+from Models.nn_models import DefeatRoachesDQN, DefeatRoachesD3QN
 from Agents.rl_agent import BaseRLAgent
 
-_PLAYER_RELATIVE = features.SCREEN_FEATURES.player_relative.index
-_NO_OP = actions.FUNCTIONS.no_op.id
-_ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id
-_SELECT_ARMY = actions.FUNCTIONS.select_army.id
-_UNIT_TYPE = 6
-_UNIT_HIT_POINTS = 8
-FUNCTIONS = actions.FUNCTIONS
+# Características y acciones
+_PLAYER_RELATIVE = features.SCREEN_FEATURES.player_relative.index # Screen de las características relativas a los jugadores
+_NO_OP = actions.FUNCTIONS.no_op.id # Sin operación
+_ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id # Mover y Atacar
+_SELECT_ARMY = actions.FUNCTIONS.select_army.id # Seleccionar ejercito
+_UNIT_TYPE = 6 # Screen tipo de unidad
+_UNIT_HIT_POINTS = 8 # Screen puntos de ataque
+FUNCTIONS = actions.FUNCTIONS # Funciones de las acciones
 
 class BattleAgent(BaseRLAgent):
     """
@@ -24,14 +25,14 @@ class BattleAgent(BaseRLAgent):
 
     def __init__(self, save_name=None, load_name=None):
         super(BattleAgent, self).__init__(save_name=save_name, load_name=load_name)
-        self.initialize_model(DuelingFeatureCNNFCBig(3, screen_size=self._screen_size))
-        self.steps_before_training = 5000
-        self.obs = None
-        self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS]
-        self.train_q_per_step = 1
+        self.initialize_model(DefeatRoachesDQN(3, screen_size=self._screen_size)) # Se inicializa el modelo
+        self.steps_before_training = 5000 # Pasos antes del entrenamiento
+        self.obs = None # Placeholder de la observación
+        self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS] # Características
+        self.train_q_per_step = 1 # Se entrena q en cada paso
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
-        """A run loop to have agents and an environment interact."""
+        """Loop Principal. Solo se comentan los cambios con respecto a Beacon"""
         total_frames = 0
         start_time = time.time()
 
@@ -43,7 +44,7 @@ class BattleAgent(BaseRLAgent):
             while self.n_episodes < max_episodes:
 
                 obs = env.reset()[0]
-                # remove unit selection from the equation by selecting the entire army on every new game.
+
                 select_army = actions.FunctionCall(_SELECT_ARMY, [[False]])
                 obs = env.step([select_army])[0]
 
@@ -53,7 +54,7 @@ class BattleAgent(BaseRLAgent):
                 while True:
                     total_frames += 1
 
-                    self.obs = obs.observation["feature_screen"][self.features]
+                    self.obs = obs.observation["feature_screen"][self.features] # Se extraen varias carácterísticas desde la pantalla
                     s = np.expand_dims(self.obs, 0)
 
                     if max_frames and total_frames >= max_frames:
@@ -67,13 +68,13 @@ class BattleAgent(BaseRLAgent):
                     action = self.get_action(s, unsqueeze=False)
                     env_actions = self.get_env_action(action, obs, command=_ATTACK_SCREEN)
                     try:
-                        obs = env.step([env_actions])[0]
-                        r = obs.reward - 10
-                    except ValueError as e:
+                        obs = env.step([env_actions])[0] # Se intenta realizar una acción
+                        r = obs.reward - 10 # Se penaliza el no atacar
+                    except ValueError as e: # De ser una acción no valida
                         print(e)
-                        obs = env.step([actions.FunctionCall(_NO_OP, [])])[0]
-                        r = obs.reward - 1000
-                    episode_reward += r
+                        obs = env.step([actions.FunctionCall(_NO_OP, [])])[0] # no se hace nada
+                        r = obs.reward - 1000 # Se penaliza al agente fuertemente
+                    episode_reward += r # se aumenta el contador de episodios
                     s1 = np.expand_dims(obs.observation["feature_screen"][self.features], 0)
                     done = r > 0
                     if self._epsilon.isTraining:

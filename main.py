@@ -1,37 +1,43 @@
+"""
+Script principal desde el que se ejecuta el programa. En el aparece la configuración del ambiente y la ejecución de
+este y los agentes.
+
+"""
+
+# Cabeceras
 from absl import app
+from absl import flags
 
 from environment import get_environment
 from runner import Runner
 
-_CONFIG = dict(
-    episodes=10000,
-    actions=8,
+#  Banderas con parametros de ejecución
+FLAGS = flags.FLAGS  # kkkkk
+flags.DEFINE_bool("train", True, "Whether we are training or running")
+flags.DEFINE_string("agent", "BeaconAgent", "Which agent to run")
+flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim', "file to load params from")
+flags.DEFINE_string("save_file", '', "file to save params to / load from if not loading from checkpoint")
 
-    map_name='DefeatRoaches',
-    screen_size=32,
-    minimap_size=32,
-    step_mul=8,
-    visualize=False,    
-    
-    method='DQN',
-    gamma=0.99, 
-    epsilon=1.0,
-    lr=1e-4, 
-    loss='mse', 
-    batch_size=64,
-    epsilon_decrease=0.005,
-    epsilon_min=0.05, 
-    update_target=2000,
-    num_episodes=5000, 
-    max_memory=100000,
-    agent_name= 'Battle',
 
-    train=True,
-    load_path='./graphs/train_PGAgent_190226_1942'
-)
+# Configuración para la ejecución
+
 
 def main(unused_argv):
+    _CONFIG = dict(
+        episodes=10000,  # Episodios
 
+        map_name='MoveToBeacon',  # Nombre del mapa
+        screen_size=32,  # Tamaño de la pantalla
+        minimap_size=32,  # Tamaño del minimapa
+        step_mul=8,  # multiplicador de pasos
+        visualize=False,  # visualización de las características
+
+        agent_name='Beacon',  # Tipo de agente
+        train=FLAGS.train,  # Indicador de entrenamiento
+
+    )
+
+    # Creación del ambiente
     env = get_environment(
                         map_name=_CONFIG['map_name'],
                         screen_size=_CONFIG['screen_size'],
@@ -39,16 +45,17 @@ def main(unused_argv):
                         step_mul=_CONFIG['step_mul'],
                         visualize=_CONFIG['visualize']
                         )
-
+    #Instancia de ejecutor
     runner = Runner(
                     agent_name= _CONFIG['agent_name'],
                     env=env,
-                    train=_CONFIG['train'],
-                    map_name=_CONFIG['map_name']
+                    map_name=_CONFIG['map_name'],
+                    FLAGS=FLAGS
                     )
 
+    #Ejecución
     runner.run(episodes=_CONFIG['episodes'])
 
 
 if __name__ == "__main__":
-    app.run(main)
+    app.run(main) # Correr la app

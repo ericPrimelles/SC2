@@ -1,41 +1,39 @@
-from absl import flags
+"""
+Script del  ejecutor. Es el encargado de seleccionar y cargar el agente,  además crea el agente
+
+"""
 from Agents.beacon_agent import BeaconAgent
 from Agents.battle_agent import BattleAgent
 
-FLAGS = flags.FLAGS
-flags.DEFINE_string("agent", "BeaconAgent", "Which agent to run")
-flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim', "file to load params from")
-flags.DEFINE_string("save_file", '', "file to save params to / load from if not loading from checkpoint")
 
+# Clase del ejecutor
 class Runner(object):
-    def __init__(self, agent_name, env, train, map_name):
-        self.agent_name = agent_name
-        self.agent = 0
-        self.env = env
-        self.train = train  # True: entrenar agente, False: se carga agente entrenado
+    def __init__(self, agent_name, env, map_name, FLAGS):
+        self.agent_name = agent_name  # Nombre del agente
+        self.agent = 0  # Placeholder para el agente
+        self.env = env  # Agente
+        self.map_name = map_name  # Nombre del mapa a utilizar, se usa para los archivos de guardado
+        self.FLAGS = FLAGS  # Se pasan las banderas para su utilización
 
-        self.episode = 1 
-        self.last_10_ep_rewards = []
-        self.map_name = map_name
-        
+    # Método de ejecución
     def run(self, episodes):
-        if not FLAGS.save_file:
-            save_name = f'{episodes}eps_{self.agent_name}'
+        if not self.FLAGS.save_file: # Si no hay una dirección de guardado almacenada
+            save_name = f'{episodes}eps_{self.agent_name}' # Crea una por defecto
         else:
-            save_name = FLAGS.save_file
+            save_name = self.FLAGS.save_file # Si no toma la almacenada
 
-        self.agent_selector(save_name=save_name, load_name=FLAGS.load_file)
-        if self.train:
-            self.agent.train(self.env, self.train, episodes)
+        self.agent_selector(save_name=save_name, load_name=self.FLAGS.load_file) # Selecciona un agente.
+        if self.FLAGS.train: # Si la bandera de entrenamiento está activada
+            self.agent.train(self.env, self.FLAGS.train, episodes) # Entrena
         else:
-            self.agent.evaluate(self.env)
+            self.agent.evaluate(self.env) # Si no ejecuta en modo greedy
 
+    # Selector de agente, toma como argumentos las banderas de guardado y cargado
     def agent_selector(self, save_name, load_name):
         #save_name = f'./data/{self.map}/{10000}eps_{self.agent_name}'
-        if self.agent_name == 'Beacon':
-            print('\n\n\nSelecting beacon\n\n\n')
-            self.agent = BeaconAgent(save_name=save_name, load_name=load_name)
+        if self.agent_name == 'Beacon': # Si es un agente para el mapa Move to Beacon
 
-        if self.agent_name == 'Battle':
-            print('\n\n\nSelecting beacon\n\n\n')
-            self.agent = BattleAgent(save_name=save_name, load_name=load_name)
+            self.agent = BeaconAgent(save_name=save_name, load_name=load_name) # Carga un agente Beacon
+
+        if self.agent_name == 'Battle': # Si es un agente para el mapa Defeat Roaches
+            self.agent = BattleAgent(save_name=save_name, load_name=load_name) # Carga un agente de batalla
