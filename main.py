@@ -40,20 +40,7 @@ flags.DEFINE_float('lr', 1e-8, 'Learning rate for neuronal networks')
 
 
 def main(unused_argv):
-    _CONFIG = dict(
-        episodes=10000,  # Episodios
-
-        map_name='DefeatRoaches',  # Nombre del mapa
-        screen_size=32,  # Tamaño de la pantalla
-        minimap_size=32,  # Tamaño del minimapa
-        step_mul=8,  # multiplicador de pasos
-        visualize=False,  # visualización de las características
-
-        agent_name='Battle',  # Tipo de agente
-        train=FLAGS.train,  # Indicador de entrenamiento
-
-    )
-
+   
     # Creación del ambiente
     env = get_environment(
                         map_name=FLAGS.map,
