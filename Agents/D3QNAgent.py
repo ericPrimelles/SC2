@@ -78,7 +78,10 @@ class D3QNAgent(BaseRLAgent):
                         #r = obs.reward - 1000 # Se penaliza al agente fuertemente
                     episode_reward += r # se aumenta el contador de recompensas
                     s1 = np.expand_dims(obs.observation["feature_screen"][self.features], 0)
-                    done = r > 32
+                    if self.FLAGS.map == 'DefeatRoaches':
+                        done = r > 32
+                    else :
+                        done = r > 0
                     if done:
                         r += 50
 

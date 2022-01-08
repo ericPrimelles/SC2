@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7de01a01-1f91-4e22-8acc-e0c4283a5a10" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/10000eps_Battle_checkpoint1000_data.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agents/battle_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agents/D3QNAgent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agents/beacon_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agents/DQNAgent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/DRL_Models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DRL_Models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agents/D3QNAgent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agents/D3QNAgent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/battle_evaluation_reward.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/battle_evaluation_reward.joblib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/runner.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +28,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
+            <state relative-caret-position="442">
               <caret line="47" column="31" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
               <folding>
                 <element signature="e#158#178#0" expanded="true" />
@@ -47,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/runner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+            <state relative-caret-position="141">
+              <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
               <folding>
                 <element signature="e#105#148#0" expanded="true" />
               </folding>
@@ -59,8 +52,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Agents/D3QNAgent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="28" column="78" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="78" />
+            <state relative-caret-position="279">
+              <caret line="85" column="31" lean-forward="true" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -71,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Models/DRL_Models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="65" column="29" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+            <state relative-caret-position="-165">
+              <caret line="38" column="49" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -80,7 +73,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Agents/DQNAgent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="430">
               <caret line="31" column="82" selection-start-line="31" selection-start-column="82" selection-end-line="31" selection-end-column="82" />
               <folding>
                 <element signature="e#60#71#0" expanded="true" />
@@ -248,10 +241,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35486000" />
+    <option name="totallyTimeSpent" value="36369000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="868" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22879177" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -357,26 +351,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Agents/DQNAgent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="31" column="82" selection-start-line="31" selection-start-column="82" selection-end-line="31" selection-end-column="82" />
-          <folding>
-            <element signature="e#60#71#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
-          <folding>
-            <element signature="e#105#148#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/environment.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -387,16 +361,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Models/DRL_Models.py">
+    <entry file="file://$PROJECT_DIR$/Agents/DQNAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="65" column="29" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+        <state relative-caret-position="430">
+          <caret line="31" column="82" selection-start-line="31" selection-start-column="82" selection-end-line="31" selection-end-column="82" />
+          <folding>
+            <element signature="e#60#71#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
+        <state relative-caret-position="442">
           <caret line="47" column="31" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
           <folding>
             <element signature="e#158#178#0" expanded="true" />
@@ -404,10 +381,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Models/DRL_Models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-165">
+          <caret line="38" column="49" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+          <folding>
+            <element signature="e#105#148#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Agents/D3QNAgent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="28" column="78" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="78" />
+        <state relative-caret-position="279">
+          <caret line="85" column="31" lean-forward="true" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
