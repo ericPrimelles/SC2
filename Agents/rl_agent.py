@@ -38,6 +38,8 @@ class BaseRLAgent(BaseAgent, ABC):
         self.train_q_batch_size = FLAGS.batch_size
         self.steps_before_training = FLAGS.steps_before_training
         self.target_q_update_frequency = FLAGS.target_update
+        self.lr = FLAGS.lr
+
 
         self.save_name = save_name # Guardando la ruta de guardado
         if load_name is None: # Si no hay ruta de cargado se iguala a la de salvado
@@ -75,7 +77,7 @@ class BaseRLAgent(BaseAgent, ABC):
         self._Q.to(self.device)
         self._Qt.to(self.device)
         # Se inicializa el optimizador
-        self._optimizer = optim.Adam(self._Q.parameters(), lr=1e-8)
+        self._optimizer = optim.Adam(self._Q.parameters(), lr=self.lr)
 
     def load_model_checkpoint(self, load_params=True):
         """"

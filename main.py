@@ -24,13 +24,14 @@ flags.DEFINE_integer('feature_size', 32, 'Minimap and screen size')
 flags.DEFINE_bool ('visualize', False, 'Visualize the feature screen')
 flags.DEFINE_string('agent_name', 'Beacon', 'Agent to play')
 flags.DEFINE_integer('max_frames', 10000000, 'Max steps per episode')
-flags.DEFINE_float('epsilon_start', 0.9, 'Start value for Epsilon')
+flags.DEFINE_float('epsilon_start', 1, 'Start value for Epsilon')
 flags.DEFINE_float('epsilon_end', 0.1, 'End value for Epsilon')
 flags.DEFINE_float('epsilon_decrement', 0.0001, 'Decrement of Epsilon per episode')
 flags.DEFINE_integer('batch_size', 256, 'Size of the training batch')
 flags.DEFINE_float('gamma', 0.99, 'Discount factor')
 flags.DEFINE_integer('steps_before_training', 5000, 'Steps before start training')
 flags.DEFINE_integer('target_update', 10000, 'Target actualization interval')
+flags.DEFINE_float('lr', 1e-8, 'Learning rate for neuronal networks')
 
 
 
