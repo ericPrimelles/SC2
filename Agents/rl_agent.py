@@ -24,18 +24,20 @@ _MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id # Moverse en la pantalla
 
 
 class BaseRLAgent(BaseAgent, ABC):
-    def __init__(self, save_name='./data/', load_name=None):
+    def __init__(self, FLAGS, save_name='./data/', load_name=None):
         super(BaseRLAgent, self).__init__()
         self.training = False # Fijando training a False
-        self.max_frames = 10000000 # Maximos pasos antes de terminar un episodio
-        self._epsilon = Epsilon(start=0.9, end=0.1, update_increment=0.0001) # Iniciando el manejador de Epsilon
-        self.gamma = 0.99 # Factor de descuento
+        self.max_frames = FLAGS.max_frames # Maximos pasos antes de terminar un episodio
+        self._epsilon = Epsilon(start= FLAGS.epsilon_start,
+                                end=FLAGS.epsilon_end,
+                                update_increment=FLAGS.epsilon_decrement) # Iniciando el manejador de Epsilon
+        self.gamma = FLAGS.gamma # Factor de descuento
 
         # Hiperparámetros
         #self.train_q_per_step = 4
-        self.train_q_batch_size = 256
-        self.steps_before_training = 5000
-        self.target_q_update_frequency = 10000
+        self.train_q_batch_size = FLAGS.batch_size
+        self.steps_before_training = FLAGS.steps_before_training
+        self.target_q_update_frequency = FLAGS.target_update
 
         self.save_name = save_name # Guardando la ruta de guardado
         if load_name is None: # Si no hay ruta de cargado se iguala a la de salvado

@@ -19,8 +19,8 @@ _SELECT_ARMY = actions.FUNCTIONS.select_army.id # Acción para seleccionar al ej
 
 class BeaconAgent(BaseRLAgent):
 
-    def __init__(self, save_name=None, load_name=None):
-        super(BeaconAgent, self).__init__(save_name=save_name, load_name=load_name)
+    def __init__(self, FLAGS, save_name=None, load_name=None):
+        super(BeaconAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
         self.initialize_model(MoveToBeaconDQN()) # LLamado a la funcion de inicialización seleccionando el modelo específico
         # Parámetros
         self.features = 5 # Para seleccionar las features

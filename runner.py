@@ -33,7 +33,7 @@ class Runner(object):
         #save_name = f'./data/{self.map}/{10000}eps_{self.agent_name}'
         if self.agent_name == 'Beacon': # Si es un agente para el mapa Move to Beacon
 
-            self.agent = BeaconAgent(save_name=save_name, load_name=load_name) # Carga un agente Beacon
+            self.agent = BeaconAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente Beacon
 
         if self.agent_name == 'Battle': # Si es un agente para el mapa Defeat Roaches
-            self.agent = BattleAgent(save_name=save_name, load_name=load_name) # Carga un agente de batalla
+            self.agent = BattleAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente de batalla

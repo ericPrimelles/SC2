@@ -23,13 +23,14 @@ class BattleAgent(BaseRLAgent):
     Agent where the entire army is selected
     """
 
-    def __init__(self, save_name=None, load_name=None):
-        super(BattleAgent, self).__init__(save_name=save_name, load_name=load_name)
+    def __init__(self, FLAGS, save_name=None, load_name=None):
+        super(BattleAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
         self.initialize_model(DefeatRoachesDQN(3, screen_size=self._screen_size)) # Se inicializa el modelo
         self.steps_before_training = 5000 # Pasos antes del entrenamiento
         self.obs = None # Placeholder de la observación
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS] # Características
         self.train_q_per_step = 1 # Se entrena q en cada paso
+        self.greedy_rewards = []
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """Loop Principal. Solo se comentan los cambios con respecto a Beacon"""
@@ -69,14 +70,17 @@ class BattleAgent(BaseRLAgent):
                     env_actions = self.get_env_action(action, obs, command=_ATTACK_SCREEN)
                     try:
                         obs = env.step([env_actions])[0] # Se intenta realizar una acción
-                        r = obs.reward - 10 # Se penaliza el no atacar
+                        r = obs.reward  # Se penaliza el no atacar
                     except ValueError as e: # De ser una acción no valida
-                        print(e)
+
                         obs = env.step([actions.FunctionCall(_NO_OP, [])])[0] # no se hace nada
-                        r = obs.reward - 1000 # Se penaliza al agente fuertemente
-                    episode_reward += r # se aumenta el contador de episodios
+                        #r = obs.reward - 1000 # Se penaliza al agente fuertemente
+                    episode_reward += r # se aumenta el contador de recompensas
                     s1 = np.expand_dims(obs.observation["feature_screen"][self.features], 0)
-                    done = r > 0
+                    done = r > 32
+                    if done:
+                        r += 50
+
                     if self._epsilon.isTraining:
                         transition = Transition(s, action, s1, r, done)
                         self._memory.push(transition)
@@ -94,7 +98,8 @@ class BattleAgent(BaseRLAgent):
                     self._epsilon.isTraining = True
                 if evaluate_checkpoints == 0:  # this should only activate when we're inside the evaluation loop
                     self.reward.append(episode_reward)
-                    dump(self.reward, 'battle_evaluation_reward.joblib')
+                    self.greedy_rewards.append(episode_reward)
+                    dump(self.greedy_rewards, 'battle_evaluation_reward.joblib')
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 

@@ -13,4 +13,5 @@ def get_environment(map_name, screen_size=32, minimap_size=32, step_mul=10, visu
                         step_mul=step_mul,
                         visualize=visualize
                         )
+
     return available_actions_printer.AvailableActionsPrinter(env)
