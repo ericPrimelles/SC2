@@ -7,7 +7,7 @@ import numpy as np
 
 import time
 from Agents.rl_agent import BaseRLAgent
-from Models.nn_models import MoveToBeaconDQN
+from Models.DRL_Models import MoveToBeaconDQN, MoveToBeaconD3QN
 from Utils.replay_memory import Transition
 
 from pysc2.lib import actions
@@ -21,12 +21,16 @@ class BeaconAgent(BaseRLAgent):
 
     def __init__(self, FLAGS, save_name=None, load_name=None):
         super(BeaconAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
-        self.initialize_model(MoveToBeaconDQN()) # LLamado a la funcion de inicialización seleccionando el modelo específico
+
+        if not FLAGS.dueling:
+            self.initialize_model(MoveToBeaconDQN()) # LLamado a la funcion de inicialización seleccionando el modelo específico
+        else:
+            self.initialize_model(MoveToBeaconD3QN(1))
         # Parámetros
         self.features = 5 # Para seleccionar las features
         self.train_q_per_step = 4 # Cantidad de pasos tras los que se realiza un entrenamiento
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
         """
         Loop principal del agente
         """

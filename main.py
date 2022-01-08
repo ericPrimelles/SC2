@@ -16,7 +16,7 @@ FLAGS = flags.FLAGS  # kkkkk
 flags.DEFINE_bool("train", True, "Whether we are training or running")
 flags.DEFINE_string("agent", "BeaconAgent", "Which agent to run")
 flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim', "file to load params from")
-flags.DEFINE_string("save_file", '', "file to save params to / load from if not loading from checkpoint")
+flags.DEFINE_string("save_file", 'data/', "file to save params to / load from if not loading from checkpoint")
 flags.DEFINE_integer('episodes', 10000, 'Num of episodes')
 flags.DEFINE_string('map', 'MoveToBeacon', 'Map to be played')
 flags.DEFINE_integer('stepMult', 8, 'Speed of render')
@@ -32,6 +32,7 @@ flags.DEFINE_float('gamma', 0.99, 'Discount factor')
 flags.DEFINE_integer('steps_before_training', 5000, 'Steps before start training')
 flags.DEFINE_integer('target_update', 10000, 'Target actualization interval')
 flags.DEFINE_float('lr', 1e-8, 'Learning rate for neuronal networks')
+flags.DEFINE_bool ('dueling', False, 'Dueling DQN selector')
 
 
 
@@ -40,7 +41,7 @@ flags.DEFINE_float('lr', 1e-8, 'Learning rate for neuronal networks')
 
 
 def main(unused_argv):
-   
+
     # Creación del ambiente
     env = get_environment(
                         map_name=FLAGS.map,

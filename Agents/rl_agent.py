@@ -26,6 +26,7 @@ _MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id # Moverse en la pantalla
 class BaseRLAgent(BaseAgent, ABC):
     def __init__(self, FLAGS, save_name='./data/', load_name=None):
         super(BaseRLAgent, self).__init__()
+        self.FLAGS = FLAGS
         self.training = False # Fijando training a False
         self.max_frames = FLAGS.max_frames # Maximos pasos antes de terminar un episodio
         self._epsilon = Epsilon(start= FLAGS.epsilon_start,
@@ -40,6 +41,19 @@ class BaseRLAgent(BaseAgent, ABC):
         self.target_q_update_frequency = FLAGS.target_update
         self.lr = FLAGS.lr
 
+        f = open(save_name + "-Hyperparameters.txt", 'w')
+        text = f'Episodios: {self.FLAGS.episodes} \n' \
+            f'Max Frames: {self.FLAGS.max_frames}\n' \
+            f'Epsilon Start: {self.FLAGS.epsilon_start} \n' \
+            f'Epsilon End: {self.FLAGS.epsilon_end}\n' \
+            f'Epsilon decreament: {self.FLAGS.epsilon_decrement}\n' \
+            f'Batch Size: {self.FLAGS.batch_size}\n' \
+            f'Gamma: {self.FLAGS.gamma}\n' \
+            f'Steps before training: {self.FLAGS.steps_before_training}\n' \
+            f'Target uodate: {self.FLAGS.target_update}\n' \
+            f'Learning rate: {self.FLAGS.lr}\n'
+        f.write(text)
+        f.close()
 
         self.save_name = save_name # Guardando la ruta de guardado
         if load_name is None: # Si no hay ruta de cargado se iguala a la de salvado
@@ -130,6 +144,7 @@ class BaseRLAgent(BaseAgent, ABC):
             save_name = self.save_name
         torch.save(self._Q.state_dict(), save_name + '.pth') # Se utiliza torch para hacer checkpoint del modelo
         pickle.dump(save_data, open(f'{save_name}_data.pkl', 'wb')) # Se salva con pickle los datos
+
 
     def evaluate(self, env, max_episodes=10000, load_dict=True):
         """"

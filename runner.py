@@ -4,6 +4,8 @@ Script del  ejecutor. Es el encargado de seleccionar y cargar el agente,  ademá
 """
 from Agents.beacon_agent import BeaconAgent
 from Agents.battle_agent import BattleAgent
+import datetime
+from Utils.directory import make_dir
 
 
 # Clase del ejecutor
@@ -17,7 +19,10 @@ class Runner(object):
 
     # Método de ejecución
     def run(self, episodes):
+        self.episodes = episodes
+
         if not self.FLAGS.save_file: # Si no hay una dirección de guardado almacenada
+
             save_name = f'{episodes}eps_{self.agent_name}' # Crea una por defecto
         else:
             save_name = self.FLAGS.save_file # Si no toma la almacenada
@@ -31,9 +36,15 @@ class Runner(object):
     # Selector de agente, toma como argumentos las banderas de guardado y cargado
     def agent_selector(self, save_name, load_name):
         #save_name = f'./data/{self.map}/{10000}eps_{self.agent_name}'
-        if self.agent_name == 'Beacon': # Si es un agente para el mapa Move to Beacon
+        date = str(datetime.datetime.now())
+        date = date.replace(':', "-")
 
+        if self.agent_name == 'Beacon': # Si es un agente para el mapa Move to Beacon
+            make_dir(save_name + 'Beacon/' + date)
+            save_name += 'Beacon/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
             self.agent = BeaconAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente Beacon
 
         if self.agent_name == 'Battle': # Si es un agente para el mapa Defeat Roaches
+            make_dir(save_name + 'Battle/' + date)
+            save_name += 'Battle/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
             self.agent = BattleAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente de batalla
