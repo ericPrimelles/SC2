@@ -2,8 +2,8 @@
 Script del  ejecutor. Es el encargado de seleccionar y cargar el agente,  además crea el agente
 
 """
-from Agents.beacon_agent import BeaconAgent
-from Agents.battle_agent import BattleAgent
+from Agents.DQNAgent import DQNAgent
+from Agents.D3QNAgent import D3QNAgent
 import datetime
 from Utils.directory import make_dir
 
@@ -39,12 +39,16 @@ class Runner(object):
         date = str(datetime.datetime.now())
         date = date.replace(':', "-")
 
-        if self.agent_name == 'Beacon': # Si es un agente para el mapa Move to Beacon
-            make_dir(save_name + 'Beacon/' + date)
-            save_name += 'Beacon/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
-            self.agent = BeaconAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente Beacon
+        if self.agent_name == 'DQN': # Si es un agente para el mapa Move to Beacon
+            make_dir(save_name)
+            make_dir(save_name + 'DQN')
+            make_dir(save_name + 'DQN/' + date)
+            save_name += 'DQN/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
+            self.agent = DQNAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente Beacon
 
-        if self.agent_name == 'Battle': # Si es un agente para el mapa Defeat Roaches
-            make_dir(save_name + 'Battle/' + date)
-            save_name += 'Battle/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
-            self.agent = BattleAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente de batalla
+        if self.agent_name == 'D3QN': # Si es un agente para el mapa Defeat Roaches
+            make_dir(save_name)
+            make_dir(save_name + 'D3QN')
+            make_dir(save_name + 'D3QN/' + date)
+            save_name += 'D3QN/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
+            self.agent = D3QNAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente de batalla

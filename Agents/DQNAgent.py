@@ -7,7 +7,7 @@ import numpy as np
 
 import time
 from Agents.rl_agent import BaseRLAgent
-from Models.DRL_Models import MoveToBeaconDQN, MoveToBeaconD3QN
+from Models.DRL_Models import DQNModel
 from Utils.replay_memory import Transition
 
 from pysc2.lib import actions
@@ -17,20 +17,19 @@ from pysc2.lib import actions
 _ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id # Accion atack screen, sirve para moverse por la pantalla y atacr enemigos
 _SELECT_ARMY = actions.FUNCTIONS.select_army.id # Acción para seleccionar al ejercito
 
-class BeaconAgent(BaseRLAgent):
+class DQNAgent(BaseRLAgent):
 
     def __init__(self, FLAGS, save_name=None, load_name=None):
-        super(BeaconAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
+        super(DQNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
 
-        if not FLAGS.dueling:
-            self.initialize_model(MoveToBeaconDQN()) # LLamado a la funcion de inicialización seleccionando el modelo específico
-        else:
-            self.initialize_model(MoveToBeaconD3QN(1))
+
+        self.initialize_model(DQNModel()) # LLamado a la funcion de inicialización seleccionando el modelo específico
+
         # Parámetros
         self.features = 5 # Para seleccionar las features
         self.train_q_per_step = 4 # Cantidad de pasos tras los que se realiza un entrenamiento
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """
         Loop principal del agente
         """

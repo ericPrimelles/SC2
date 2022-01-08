@@ -6,7 +6,7 @@ from joblib import dump
 from pysc2.lib import actions, features
 from Utils.replay_memory import Transition
 
-from Models.DRL_Models import DefeatRoachesDQN, DefeatRoachesD3QN
+from Models.DRL_Models import D3QNModel
 from Agents.rl_agent import BaseRLAgent
 
 # Características y acciones
@@ -18,24 +18,22 @@ _UNIT_TYPE = 6 # Screen tipo de unidad
 _UNIT_HIT_POINTS = 8 # Screen puntos de ataque
 FUNCTIONS = actions.FUNCTIONS # Funciones de las acciones
 
-class BattleAgent(BaseRLAgent):
+class D3QNAgent(BaseRLAgent):
     """
     Agent where the entire army is selected
     """
 
     def __init__(self, FLAGS, save_name=None, load_name=None):
-        super(BattleAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
-        if not FLAGS.dueling:
-            self.initialize_model(DefeatRoachesDQN(3, screen_size=self._screen_size)) # Se inicializa el modelo
-        else:
-            self.initialize_model(DefeatRoachesD3QN(3, screen_size=self._screen_size))  # Se inicializa el modelo
+        super(D3QNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
+
+        self.initialize_model(D3QNModel(3, screen_size=self.FLAGS.feature_size))  # Se inicializa el modelo
         self.steps_before_training = 5000 # Pasos antes del entrenamiento
         self.obs = None # Placeholder de la observación
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS] # Características
         self.train_q_per_step = 1 # Se entrena q en cada paso
         self.greedy_rewards = []
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """Loop Principal. Solo se comentan los cambios con respecto a Beacon"""
         total_frames = 0
         start_time = time.time()

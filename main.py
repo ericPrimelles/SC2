@@ -12,9 +12,9 @@ from environment import get_environment
 from runner import Runner
 
 #  Banderas con parametros de ejecución
-FLAGS = flags.FLAGS  # kkkkk
+FLAGS = flags.FLAGS
 flags.DEFINE_bool("train", True, "Whether we are training or running")
-flags.DEFINE_string("agent", "BeaconAgent", "Which agent to run")
+flags.DEFINE_string("agent", "DQNAgent", "Which agent to run")
 flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim', "file to load params from")
 flags.DEFINE_string("save_file", 'data/', "file to save params to / load from if not loading from checkpoint")
 flags.DEFINE_integer('episodes', 10000, 'Num of episodes')
@@ -45,10 +45,10 @@ def main(unused_argv):
     # Creación del ambiente
     env = get_environment(
                         map_name=FLAGS.map,
-                        screen_size=FLAGS.feature_size,
-                        minimap_size=FLAGS.feature_size,
+                        feature_dimensions=FLAGS.feature_size,
                         step_mul=FLAGS.feature_size,
-                        visualize=FLAGS.visualize
+                        visualize=FLAGS.visualize,
+
                         )
     #Instancia de ejecutor
     runner = Runner(
@@ -56,6 +56,7 @@ def main(unused_argv):
                     env=env,
                     map_name=FLAGS.map,
                     FLAGS=FLAGS
+
                     )
 
     #Ejecución
