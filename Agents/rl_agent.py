@@ -77,7 +77,7 @@ class BaseRLAgent(BaseAgent, ABC):
         self.reward = []
         self._action = None
         self._screen = None
-        self._screen_size = 32
+        self._screen_size = self.FLAGS.feature_size
         self.n_episodes = 0
         self.features = None
 
