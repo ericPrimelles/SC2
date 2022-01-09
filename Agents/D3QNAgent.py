@@ -1,9 +1,7 @@
-# Computation
-from joblib import dump
 import numpy as np
 import copy
 import time
-import datetime
+
 
 # Ambiente
 from pysc2.lib import actions, features
@@ -24,24 +22,20 @@ _UNIT_HIT_POINTS = 8 # Screen puntos de ataque
 FUNCTIONS = actions.FUNCTIONS # Funciones de las acciones
 
 class D3QNAgent(BaseRLAgent):
-    """
-    Agent where the entire army is selected
-    """
 
-    def __init__(self, FLAGS, save_name=None, load_name=None, save_joblib = None):
-        super(D3QNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name, save_joblib=save_joblib)
+    def __init__(self, FLAGS, save_name=None, load_name=None):
+        super(D3QNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
 
         self.initialize_model(D3QNModel(3, screen_size=self.FLAGS.feature_size))  # Se inicializa el modelo
         self.steps_before_training = 5000 # Pasos antes del entrenamiento
         self.obs = None # Placeholder de la observación
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS] # Características
         self.train_q_per_step = 1 # Se entrena q en cada paso
-        self.greedy_rewards = []
         self.save_name = save_name
-        self.save_joblib = save_joblib
+
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
-        """Loop Principal. Solo se comentan los cambios con respecto a Beacon"""
+        """Loop Principal. Solo se comentan los cambios con respecto a DQN"""
         total_frames = 0
         start_time = time.time()
 
@@ -109,13 +103,8 @@ class D3QNAgent(BaseRLAgent):
                     self._epsilon.isTraining = True
                 if evaluate_checkpoints == 0:  # Se activa solo cuando se esta en el loop de evaluación
                     self.reward.append(episode_reward)
-                    self.greedy_rewards.append(episode_reward)
 
-                    if self.FLAGS.train:
-                        dump(self.greedy_rewards, self.save_joblib + '/' + self.FLAGS.agent_name + 'training_evaluation_rewards.joblib')
-                    else:
-                        dump(self.greedy_rewards,
-                             self.save_joblib + '/' + self.FLAGS.agent_name + 'evaluating_evaluation_rewards.joblib')
+
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 

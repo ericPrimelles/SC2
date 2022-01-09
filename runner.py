@@ -49,13 +49,12 @@ class Runner(object):
             make_dir(save_name + 'DQN/' + self.map_name + '/' + date)
             save_joblib = save_name + 'DQN/' + self.map_name + '/' + date
             save_name += 'DQN/' + self.map_name + '/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
-            self.agent = DQNAgent(self.FLAGS, save_name=save_name, load_name=load_name, save_joblib= save_joblib) # Carga un agente Beacon
+            self.agent = DQNAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente Beacon
 
         if self.agent_name == 'D3QN': # Si es un agente para el mapa Defeat Roaches
             make_dir(save_name)
             make_dir(save_name + 'D3QN')
             make_dir(save_name + 'D3QN/' + self.map_name)
             make_dir(save_name + 'D3QN/' + self.map_name + '/' + date)
-            save_joblib = save_name + 'D3QN/' + self.map_name + '/' + date
             save_name += 'D3QN/' + self.map_name + '/' + f'{date}/' + f'{self.episodes}eps_{self.agent_name}'
-            self.agent = D3QNAgent(self.FLAGS, save_name=save_name, load_name=load_name, save_joblib=save_joblib) # Carga un agente de batalla
+            self.agent = D3QNAgent(self.FLAGS, save_name=save_name, load_name=load_name) # Carga un agente de batalla
