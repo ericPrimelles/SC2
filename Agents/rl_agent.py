@@ -214,7 +214,6 @@ class BaseRLAgent(BaseAgent, ABC):
             s = s.squeeze()
             s_1 = s_1.squeeze()
 
-
         Q = self._Q(s).view(self.train_q_batch_size, -1) # Se transforma la dimension de la predicción principal al tamaño del batch
         Q = Q.gather(1, a) # Almacena los elementos a lo largo de una dimensión
 
@@ -223,8 +222,6 @@ class BaseRLAgent(BaseAgent, ABC):
         # double Q
         best_action = self._Q(s_1).view(self.train_q_batch_size, -1).max(dim=1, keepdim=True)[1] # Se obtiene la mejor accion prediciendo el estado proximo
         y = r + done * self.gamma * Qt.gather(1, best_action) # Se calcula el valor de retorno segun la fromula de Q-Learning
-
-
 
         loss = self._criterion(Q, y) # Se calcula la périda
         self._loss.append(loss.sum().cpu().data.numpy()) # Se registra

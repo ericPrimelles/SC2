@@ -17,7 +17,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_bool("train", True, "Whether we are training or running")
 flags.DEFINE_string("agent", "DQNAgent", "Which agent to run")
 flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim', "file to load params from")
-flags.DEFINE_string("save_file", 'data/', "file to save params to / load from if not loading from checkpoint")
+flags.DEFINE_string("save_file", 'save_results/', "file to save params to / load from if not loading from checkpoint")
 flags.DEFINE_integer('episodes', 10000, 'Num of episodes')
 flags.DEFINE_string('map', 'MoveToBeacon', 'Map to be played')
 flags.DEFINE_integer('stepMult', 8, 'Speed of render')

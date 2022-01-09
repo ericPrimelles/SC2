@@ -30,7 +30,7 @@ class DQNAgent(BaseRLAgent):
         self.features = 5 # Para seleccionar las features
         self.train_q_per_step = 4 # Cantidad de pasos tras los que se realiza un entrenamiento
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
         """
         Loop principal del agente
         """
