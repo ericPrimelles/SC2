@@ -26,7 +26,7 @@ _NO_OP = actions.FUNCTIONS.no_op.id # No hacer nada
 _MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id # Moverse en la pantalla
 
 class BaseRLAgent(BaseAgent, ABC):
-    def __init__(self, FLAGS, save_name='./data/', load_name=None):
+    def __init__(self, FLAGS, save_name='./data/', load_name=None, save_joblib=None):
         super(BaseRLAgent, self).__init__()
         self.FLAGS = FLAGS
         self.training = False # Fijando training a False

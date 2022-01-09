@@ -6,6 +6,8 @@ import numpy as np
 import copy
 import time
 from joblib import dump
+import datetime
+
 
 # Files
 from Agents.rl_agent import BaseRLAgent
@@ -14,6 +16,7 @@ from Utils.replay_memory import Transition
 
 # Ambiente
 from pysc2.lib import actions
+from Utils.directory import make_dir
 
 # Acciones
 _ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id # Accion atack screen, sirve para moverse por la pantalla y atacr enemigos
@@ -21,8 +24,8 @@ _SELECT_ARMY = actions.FUNCTIONS.select_army.id # Acción para seleccionar al ej
 
 class DQNAgent(BaseRLAgent):
 
-    def __init__(self, FLAGS, save_name=None, load_name=None):
-        super(DQNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name)
+    def __init__(self, FLAGS, save_name=None, load_name=None, save_joblib=None):
+        super(DQNAgent, self).__init__(FLAGS, save_name=save_name, load_name=load_name, save_joblib=save_joblib)
 
 
         self.initialize_model(DQNModel()) # LLamado a la funcion de inicialización seleccionando el modelo específico
@@ -31,6 +34,7 @@ class DQNAgent(BaseRLAgent):
         self.features = 5 # Para seleccionar las features
         self.train_q_per_step = 4 # Cantidad de pasos tras los que se realiza un entrenamiento
         self.greedy_rewards = []
+        self.save_joblib = save_joblib
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """
@@ -100,7 +104,12 @@ class DQNAgent(BaseRLAgent):
                 if evaluate_checkpoints == 0:  # Esto solo ocurre cuando esta evaluando
                     self.reward.append(episode_reward) # Se almacena la recompensa
                     self.greedy_rewards.append(episode_reward)
-                    dump(self.greedy_rewards, self.save_name + '/' + self.FLAGS.agent_name + '_evaluation_rewards.joblib')
+                    if self.FLAGS.train:
+                        dump(self.greedy_rewards, self.save_joblib + '/' + self.FLAGS.agent_name + 'training_evaluation_rewards.joblib')
+                    else:
+                        dump(self.greedy_rewards,
+                             self.save_joblib + '/' + self.FLAGS.agent_name + 'evaluating_evaluation_rewards.joblib')
+
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 

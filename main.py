@@ -20,7 +20,8 @@ flags.DEFINE_string("load_file", f'./data/MoveToBeacon/beacon_13149steps_32dim',
 flags.DEFINE_string("save_file", 'save_results/', "file to save params to / load from if not loading from checkpoint")
 flags.DEFINE_integer('episodes', 10000, 'Num of episodes')
 flags.DEFINE_string('map', 'MoveToBeacon', 'Map to be played')
-flags.DEFINE_integer('stepMult', 8, 'Speed of render')
+flags.DEFINE_integer('step_mult', 8, 'Speed of render')
+flags.DEFINE_bool('realtime', False, 'Run in real time')
 flags.DEFINE_integer('feature_size', 32, 'Minimap and screen size')
 flags.DEFINE_bool ('visualize', False, 'Visualize the feature screen')
 flags.DEFINE_string('agent_name', 'Beacon', 'Agent to play')
@@ -44,6 +45,7 @@ def main(unused_argv):
                         feature_dimensions=FLAGS.feature_size,
                         step_mul=FLAGS.feature_size,
                         visualize=FLAGS.visualize,
+                        realtime=FLAGS.realtime
 
                         )
 
