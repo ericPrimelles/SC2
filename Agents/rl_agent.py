@@ -1,27 +1,29 @@
 """"
 Script base para los agentes, contiene los métodos abstractos sobrecargables desde las implementaciones futuras
 """
-
+# Computation
 from abc import ABC, abstractmethod # ABC se usa para crear clases abstractas
-import copy
 from collections import deque
-import pickle
 import numpy as np
+import pickle
+import copy
 
+# Ambiente
 from pysc2.agents.base_agent import BaseAgent # Método abstracto base para la implementacin de agentes
 from pysc2.lib import actions
+
+# Files
 from Utils.epsilon import Epsilon
 from Utils.replay_memory import ReplayMemory
 
+# Modelos
 import torch
 import torch.nn as nn
 import torch.optim as optim
 
-
 # Acciones base
 _NO_OP = actions.FUNCTIONS.no_op.id # No hacer nada
 _MOVE_SCREEN = actions.FUNCTIONS.Move_screen.id # Moverse en la pantalla
-
 
 class BaseRLAgent(BaseAgent, ABC):
     def __init__(self, FLAGS, save_name='./data/', load_name=None):

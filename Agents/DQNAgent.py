@@ -1,17 +1,18 @@
 """"
 Un agente especializado en el mapa Move to Beacon
 """
-
-import copy
+# Computation
 import numpy as np
-
+import copy
 import time
+
+# Files
 from Agents.rl_agent import BaseRLAgent
 from Models.DRL_Models import DQNModel
 from Utils.replay_memory import Transition
 
+# Ambiente
 from pysc2.lib import actions
-
 
 # Acciones
 _ATTACK_SCREEN = actions.FUNCTIONS.Attack_screen.id # Accion atack screen, sirve para moverse por la pantalla y atacr enemigos

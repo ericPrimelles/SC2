@@ -1,11 +1,14 @@
-import copy
-import numpy as np
-import time
+# Computation
 from joblib import dump
+import numpy as np
+import copy
+import time
 
+# Ambiente
 from pysc2.lib import actions, features
-from Utils.replay_memory import Transition
 
+# Files
+from Utils.replay_memory import Transition
 from Models.DRL_Models import D3QNModel
 from Agents.rl_agent import BaseRLAgent
 
@@ -97,10 +100,10 @@ class D3QNAgent(BaseRLAgent):
 
                 if evaluate_checkpoints > 0 and ((self.n_episodes % evaluate_checkpoints) - (evaluate_checkpoints - 1) == 0 or self.n_episodes == 0):
                     print('Evaluating...')
-                    self._epsilon.isTraining = False  # we need to make sure that we act greedily when we evaluate
+                    self._epsilon.isTraining = False  # Asegura el estar utilizando greedy para evaluar
                     self.run_loop(env, max_episodes=max_episodes, evaluate_checkpoints=0)
                     self._epsilon.isTraining = True
-                if evaluate_checkpoints == 0:  # this should only activate when we're inside the evaluation loop
+                if evaluate_checkpoints == 0:  # Se activa solo cuando se esta en el loop de evaluación
                     self.reward.append(episode_reward)
                     self.greedy_rewards.append(episode_reward)
                     dump(self.greedy_rewards, 'battle_evaluation_reward.joblib')

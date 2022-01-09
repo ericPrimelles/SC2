@@ -1,4 +1,4 @@
-# adapted from https://github.com/whathelll/DeepRLBootCampLabs/tree/master/pytorch/utils
+# Adaptado desde https://github.com/whathelll/DeepRLBootCampLabs/tree/master/pytorch/utils
 class Epsilon(object):
     def __init__(self, start=1.0, end=0.01, update_increment=0.01):
         self._start = start

@@ -8,6 +8,7 @@ este y los agentes.
 from absl import app
 from absl import flags
 
+# Files
 from environment import get_environment
 from runner import Runner
 
@@ -34,12 +35,7 @@ flags.DEFINE_integer('target_update', 10000, 'Target actualization interval')
 flags.DEFINE_float('lr', 1e-8, 'Learning rate for neuronal networks')
 flags.DEFINE_bool ('dueling', False, 'Dueling DQN selector')
 
-
-
-
 # Configuración para la ejecución
-
-
 def main(unused_argv):
 
     # Creación del ambiente
@@ -50,6 +46,7 @@ def main(unused_argv):
                         visualize=FLAGS.visualize,
 
                         )
+
     #Instancia de ejecutor
     runner = Runner(
                     agent_name= FLAGS.agent_name,

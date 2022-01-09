@@ -1,12 +1,14 @@
 """
-Script del  ejecutor. Es el encargado de seleccionar y cargar el agente,  además crea el agente
+Script del ejecutor. Es el encargado de seleccionar y cargar el agente,  además crea el agente
 
 """
+# Computation
+import datetime
+
+# Files
 from Agents.DQNAgent import DQNAgent
 from Agents.D3QNAgent import D3QNAgent
-import datetime
 from Utils.directory import make_dir
-
 
 # Clase del ejecutor
 class Runner(object):

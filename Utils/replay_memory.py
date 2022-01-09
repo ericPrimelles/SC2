@@ -1,4 +1,4 @@
-# adapted from https://github.com/whathelll/DeepRLBootCampLabs/tree/master/pytorch/utils
+# Adaptado desde https://github.com/whathelll/DeepRLBootCampLabs/tree/master/pytorch/utils
 from collections import namedtuple
 import random
 import numpy as np

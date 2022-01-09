@@ -1,10 +1,9 @@
 '''
 Script que contiene los modelos neuronales implementados
 '''
-
+# Modelos
 import torch.nn as nn
 import torch.nn.functional as F
-
 
 class DQNModel(nn.Module):
     """
@@ -28,7 +27,6 @@ class DQNModel(nn.Module):
         # x = F.relu(self.conv3(x))
         x = self.conv3(x)
         return x
-
 
 
 class D3QNModel(nn.Module):
