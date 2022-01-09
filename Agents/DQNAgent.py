@@ -5,6 +5,7 @@ Un agente especializado en el mapa Move to Beacon
 import numpy as np
 import copy
 import time
+from joblib import dump
 
 # Files
 from Agents.rl_agent import BaseRLAgent
@@ -29,8 +30,9 @@ class DQNAgent(BaseRLAgent):
         # Parámetros
         self.features = 5 # Para seleccionar las features
         self.train_q_per_step = 4 # Cantidad de pasos tras los que se realiza un entrenamiento
+        self.greedy_rewards = []
 
-    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=2, evaluate_checkpoints=10):
+    def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """
         Loop principal del agente
         """
@@ -94,8 +96,11 @@ class DQNAgent(BaseRLAgent):
                     self._epsilon.isTraining = False  # Se pasa el epsilon a flaso para asegurarnos de que siga la politica greedy
                     self.run_loop(env, max_episodes=max_episodes, evaluate_checkpoints=0) # Se corre el loop evaluando
                     self._epsilon.isTraining = True # Se vuelve a entrenar
+
                 if evaluate_checkpoints == 0:  # Esto solo ocurre cuando esta evaluando
                     self.reward.append(episode_reward) # Se almacena la recompensa
+                    self.greedy_rewards.append(episode_reward)
+                    dump(self.greedy_rewards, self.save_name + '/' + self.FLAGS.agent_name + '_evaluation_rewards.joblib')
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 

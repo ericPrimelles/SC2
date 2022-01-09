@@ -35,6 +35,7 @@ class D3QNAgent(BaseRLAgent):
         self.features = [_PLAYER_RELATIVE, _UNIT_TYPE, _UNIT_HIT_POINTS] # Características
         self.train_q_per_step = 1 # Se entrena q en cada paso
         self.greedy_rewards = []
+        self.save_name = save_name
 
     def run_loop(self, env, max_frames=0, max_episodes=10000, save_checkpoints=500, evaluate_checkpoints=10):
         """Loop Principal. Solo se comentan los cambios con respecto a Beacon"""
@@ -106,7 +107,7 @@ class D3QNAgent(BaseRLAgent):
                 if evaluate_checkpoints == 0:  # Se activa solo cuando se esta en el loop de evaluación
                     self.reward.append(episode_reward)
                     self.greedy_rewards.append(episode_reward)
-                    dump(self.greedy_rewards, 'battle_evaluation_reward.joblib')
+                    dump(self.greedy_rewards, self.save_name + '/' + self.FLAGS.agent_name + '_evaluation_rewards.joblib')
                     print(f'Evaluation Complete: Episode reward = {episode_reward}')
                     break
 
