@@ -1,0 +1,10 @@
+Episodios: 8000 
+Max Frames: 10000000
+Epsilon Start: 1.0 
+Epsilon End: 0.1
+Epsilon decreament: 0.000125
+Batch Size: 64
+Gamma: 0.99
+Steps before training: 5000
+Target uodate: 10000
+Learning rate: 1e-08
